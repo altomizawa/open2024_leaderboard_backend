@@ -27,6 +27,13 @@ const athleteSchema = new mongoose.Schema({
       required: true,
       select: false,
     },
+    team: {
+      type: String,
+    },
+    division: {
+      type: String,
+      required: true,
+    },
     category: {
       type: String,
     required: true,
@@ -43,9 +50,15 @@ const athleteSchema = new mongoose.Schema({
       type: Number,
       default: 0,
     },
+    wodOneRanking: {
+      type: Number,
+    },
     wodTwoResult: {
     type: Number,
     default: 0,
+  },
+  wodTwoRanking: {
+    type: Number,
   },
     wodThreeTime: {
     type: Number,
@@ -53,7 +66,21 @@ const athleteSchema = new mongoose.Schema({
   },
     wodThreeResult: {
     type: Number,
-  default: 0,},
+    default: 0,
+  },
+    wodThreeTieBreaker: {
+      type: Number,
+      default:0,
+    },
+    wodThreeRanking: {
+      type: Number,
+    },
+    totalPoints: {
+      type: Number,
+    },
+    finalRanking: {
+      type: Number,
+    }
 })
 
 module.exports = mongoose.model('Athlete', athleteSchema)

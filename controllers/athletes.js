@@ -3,7 +3,8 @@ const Athlete = require('../models/athlete')
 
 module.exports.getAllAthletes = async (req, res) => {
   try{
-    const athletes = await Athlete.find();
+    const {filter, sort} = req.body;
+    const athletes = await Athlete.find(filter).sort(sort);
     if (!athletes) {
       return new Error()
     }
@@ -11,12 +12,62 @@ module.exports.getAllAthletes = async (req, res) => {
   } catch (err) {return res.status(400).send(err)};
 }
 
+module.exports.createRanking = async (req, res) => {
+  try {
+    const filter = req.body
+
+    const sortWodOne = {
+      wodOneTime: 1,
+      wodOneResult: -1,
+    };
+
+    const rxAthletes = await Athlete.find(filter).sort(sortWodOne)
+    if (!rxAthletes) {
+      return new Error('Athletes could not be found')
+    }
+
+    // CREATE WOD ONE RANKING
+    rxAthletes.map(async (rxAthlete, index) => {
+      rxAthlete.wodOneRanking = index + 1;
+    })
+
+    // CREATE WOD TWO RANKING
+    rxAthletes.sort( (a, b) => b.wodTwoResult - a.wodTwoResult)
+    rxAthletes.map(async (rxAthlete, index) => {
+      rxAthlete.wodTwoRanking = index + 1;
+    })
+
+    // CREATE WOD THREE RANKING
+    rxAthletes.sort((a,b) => {
+      if (a.wodThreeTime !== b.wodThreeTime) {
+        return a.wodThreeTime - b.wodThreeTime
+      }
+      return b.wodThreeResult - a.wodThreeResult
+    })
+    // CREATE WOD THREE RANKING
+    rxAthletes.map(async (rxAthlete, index) => {
+      rxAthlete.wodThreeRanking = index + 1;
+      // CREATE TOTAL POINTS
+      rxAthlete.totalPoints = rxAthlete.wodOneRanking + rxAthlete.wodTwoRanking + rxAthlete.wodThreeRanking;
+    })
+
+    // SORT BY TOTAL POINTS AND CREATE FINAL RANKING
+    rxAthletes.sort((a,b) => a.totalPoints - b.totalPoints)
+    rxAthletes.map(async(rxAthlete, index) => {
+      rxAthlete.finalRanking = index + 1
+      await rxAthlete.save();
+    })
+    
+    res.status(200).json(rxAthletes)
+
+  } catch (err) {return res.status(400).send(err)}
+}
+
 module.exports.createAthlete = async (req, res) => {
   try {
     const { name, avatar, email, password, category, isAdmin } = req.body;
     const athlete = await Athlete.findOne({email: email})
     if (athlete) {
-      console.log(athlete)
       throw new Error("Athlete already in database")
     }
     const newAthlete = await Athlete.create({
@@ -112,6 +163,22 @@ module.exports.deleteAthlete = async (req, res) => {
     }
     return res.status(200).json(deletedAthlete);
   } catch(err) {
+    return console.log(err)
+  }
+}
+
+module.exports.getAthleteById = async (req, res) => {
+  const filter = req.params.id; // GET USER ID
+  try{
+    // FIND ATHLETE
+    const athlete = await Athlete.findById(filter);
+
+    // IF THERE'S NO MATCH
+    if (!athlete) {
+      throw new Error('Athlete not found')
+    }
+    return res.status(200).json(athlete)
+  } catch (err) {
     return console.log(err)
   }
 }

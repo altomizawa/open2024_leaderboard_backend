@@ -2,6 +2,8 @@ const router = require('express').Router();
 
 const {
     getAllAthletes,
+    createRanking,
+    getAthleteById,
     createAthlete,
     changeAthleteScore,
     updateAthleteProfile,
@@ -9,7 +11,13 @@ const {
 } = require ('../controllers/athletes')
 
 // GET ALL ATHLETES
-router.get('/', getAllAthletes)
+router.post('/', getAllAthletes)
+
+// GET RX ATHLETES SORTED
+router.get('/createranking', createRanking)
+
+// GET ATHLETE BY ID
+router.get('/:id', getAthleteById)
 
 // CREATE ATHLETE
 router.post('/', createAthlete)
