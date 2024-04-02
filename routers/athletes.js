@@ -11,7 +11,7 @@ const {
 } = require ('../controllers/athletes')
 
 // GET ALL ATHLETES
-router.post('/', getAllAthletes)
+router.post('/filter', getAllAthletes)
 
 // GET RX ATHLETES SORTED
 router.get('/createranking', createRanking)
