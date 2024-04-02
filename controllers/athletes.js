@@ -21,44 +21,44 @@ module.exports.createRanking = async (req, res) => {
       wodOneResult: -1,
     };
 
-    const rxAthletes = await Athlete.find(filter).sort(sortWodOne)
-    if (!rxAthletes) {
+    const athletes = await Athlete.find(filter).sort(sortWodOne)
+    if (!athletes) {
       return new Error('Athletes could not be found')
     }
 
     // CREATE WOD ONE RANKING
-    rxAthletes.map(async (rxAthlete, index) => {
-      rxAthlete.wodOneRanking = index + 1;
+    athletes.map(async (athlete, index) => {
+      athlete.wodOneRanking = index + 1;
     })
 
     // CREATE WOD TWO RANKING
-    rxAthletes.sort( (a, b) => b.wodTwoResult - a.wodTwoResult)
-    rxAthletes.map(async (rxAthlete, index) => {
-      rxAthlete.wodTwoRanking = index + 1;
+    athletes.sort( (a, b) => b.wodTwoResult - a.wodTwoResult)
+    athletes.map(async (athlete, index) => {
+      athlete.wodTwoRanking = index + 1;
     })
 
     // CREATE WOD THREE RANKING
-    rxAthletes.sort((a,b) => {
+    athletes.sort((a,b) => {
       if (a.wodThreeTime !== b.wodThreeTime) {
         return a.wodThreeTime - b.wodThreeTime
       }
       return b.wodThreeResult - a.wodThreeResult
     })
     // CREATE WOD THREE RANKING
-    rxAthletes.map(async (rxAthlete, index) => {
-      rxAthlete.wodThreeRanking = index + 1;
+    athletes.map(async (athlete, index) => {
+      athlete.wodThreeRanking = index + 1;
       // CREATE TOTAL POINTS
-      rxAthlete.totalPoints = rxAthlete.wodOneRanking + rxAthlete.wodTwoRanking + rxAthlete.wodThreeRanking;
+      athlete.totalPoints = athlete.wodOneRanking + athlete.wodTwoRanking + athlete.wodThreeRanking;
     })
 
     // SORT BY TOTAL POINTS AND CREATE FINAL RANKING
-    rxAthletes.sort((a,b) => a.totalPoints - b.totalPoints)
-    rxAthletes.map(async(rxAthlete, index) => {
-      rxAthlete.finalRanking = index + 1
-      await rxAthlete.save();
+    athletes.sort((a,b) => a.totalPoints - b.totalPoints)
+    athletes.map(async(athlete, index) => {
+      athlete.finalRanking = index + 1
+      await athlete.save();
     })
     
-    res.status(200).json(rxAthletes)
+    res.status(200).json(athletes)
 
   } catch (err) {return res.status(400).send(err)}
 }
