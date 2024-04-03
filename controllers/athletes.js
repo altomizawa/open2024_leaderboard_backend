@@ -14,14 +14,14 @@ module.exports.getAllAthletes = async (req, res) => {
 
 module.exports.createRanking = async (req, res) => {
   try {
-    const filter = req.body
+    const category = req.body
 
     const sortWodOne = {
       wodOneTime: 1,
       wodOneResult: -1,
     };
 
-    const athletes = await Athlete.find(filter).sort(sortWodOne)
+    const athletes = await Athlete.find(category).sort(sortWodOne)
     if (!athletes) {
       return new Error('Athletes could not be found')
     }
@@ -181,4 +181,34 @@ module.exports.getAthleteById = async (req, res) => {
   } catch (err) {
     return console.log(err)
   }
+}
+
+module.exports.getTeams = async (req, res) => {
+  // const { filter, sort } = req.body;
+  const pipeline = [
+    {
+      "$match": {
+        "team": { "$exists": true }
+      }
+    },
+    {
+      "$group": {
+        "_id": "$team",
+        "team_score": { "$sum": "$finalRanking" },
+        "athletes": { "$push": "$$ROOT" }
+      }
+    },
+    {
+      "$sort": {
+        "team_score": 1
+      }
+    }
+  ];
+
+  // FIND TEAMS
+  try{
+    const teams = await Athlete.aggregate(pipeline )
+    res.status(200).json(teams)
+  }
+  catch (err) {console.log(err)}
 }

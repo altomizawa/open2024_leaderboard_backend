@@ -8,6 +8,7 @@ const {
     changeAthleteScore,
     updateAthleteProfile,
     deleteAthlete,
+    getTeams,
 } = require ('../controllers/athletes')
 
 // GET ALL ATHLETES
@@ -30,5 +31,8 @@ router.patch('/:id', updateAthleteProfile)
 
 // DELETE ATHLETE
 router.delete('/:id', deleteAthlete)
+
+// GET TEAMS
+router.post('/getteams', getTeams)
 
 module.exports = router;
