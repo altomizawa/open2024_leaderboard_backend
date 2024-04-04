@@ -80,7 +80,7 @@ const athleteSchema = new mongoose.Schema({
     },
     finalRanking: {
       type: Number,
-    }
+    },
 })
 
 module.exports = mongoose.model('Athlete', athleteSchema)

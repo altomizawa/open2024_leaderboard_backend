@@ -178,7 +178,6 @@ module.exports.getAthleteById = async (req, res) => {
   try{
     // FIND ATHLETE
     const athlete = await Athlete.findById(filter);
-    console.log(athlete)
 
     // IF THERE'S NO MATCH
     if (!athlete) {
