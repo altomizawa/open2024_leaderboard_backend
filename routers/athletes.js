@@ -24,7 +24,7 @@ router.get('/createranking', createRanking)
 router.post('/', createAthlete)
 
 // GET ALL ATHLETES
-router.patch('/:id/scores', changeAthleteScore)
+router.patch('/:id', changeAthleteScore)
 
 // UPDATE ATHLETE
 router.patch('/:id', updateAthleteProfile)
