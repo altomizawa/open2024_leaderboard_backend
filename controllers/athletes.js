@@ -1,6 +1,7 @@
 const { ModuleNode } = require('vite');
 const Athlete = require('../models/athlete')
 
+// GET ALL ATHLETES
 module.exports.getAllAthletes = async (req, res) => {
   try{
     const {filter, sort} = req.body;
@@ -63,6 +64,7 @@ module.exports.createRanking = async (req, res) => {
   } catch (err) {return res.status(400).send(err)}
 }
 
+// CREATE ATHLETE
 module.exports.createAthlete = async (req, res) => {
   try {
     const { name, avatar, email, password, category, isAdmin } = req.body;
@@ -83,6 +85,7 @@ module.exports.createAthlete = async (req, res) => {
   } catch (err) {return res.status(400).send(err)};
 }
 
+// CHANGE ATHLETE SCORE
 module.exports.changeAthleteScore = async (req, res) => {
   try {
     const { wodOneTime, wodOneResult, wodTwoResult, wodThreeTime, wodThreeResult } = req.body; // GET ALL UPDATE INFO FROM BODY
@@ -121,6 +124,7 @@ module.exports.changeAthleteScore = async (req, res) => {
   } catch (err) {return console.log(err)};
 }
 
+// UPDATE ATHLETE PROFILE
 module.exports.updateAthleteProfile = async (req, res) => {
   const filter = req.params.id; // GET USER ID
   const { name, email, category } = req.body; // GET UPDATE INFO FROM BODY
@@ -151,6 +155,7 @@ module.exports.updateAthleteProfile = async (req, res) => {
   }
 }
 
+// DELETE ATHLETE
 module.exports.deleteAthlete = async (req, res) => {
   const filter = req.params.id; // GET USER ID
   try{
@@ -167,22 +172,36 @@ module.exports.deleteAthlete = async (req, res) => {
   }
 }
 
+// FIND ATHLETE BY ID
 module.exports.getAthleteById = async (req, res) => {
   const filter = req.params.id; // GET USER ID
   try{
     // FIND ATHLETE
     const athlete = await Athlete.findById(filter);
+    console.log(athlete)
 
     // IF THERE'S NO MATCH
     if (!athlete) {
-      throw new Error('Athlete not found')
+      res.status(404).json({message: 'Athlete not found'})
     }
     return res.status(200).json(athlete)
   } catch (err) {
-    return console.log(err)
+    console.error('Error fetching athlete', err.message)
+    return res.status(500).json({ error: 'Internal server Error' })
   }
 }
 
+// module.exports.getAthleteById = async (req, res) => {
+//   const id = 'Al Tomizawa'
+//   try{
+//     const athlete = await Athlete.find({_id: "6608c6b889b3f4d03dca58dd"})
+//     if (!athlete) {
+//       res.err(404).json({message: 'User not found'})}
+//       res.sendStatus(200).json(athlete)
+//   } catch (err) {message: 'internal server error'}
+// }
+
+// GET ALL TEAMS SORTED
 module.exports.getTeams = async (req, res) => {
   // const { filter, sort } = req.body;
   const pipeline = [

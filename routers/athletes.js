@@ -11,14 +11,14 @@ const {
     getTeams,
 } = require ('../controllers/athletes')
 
+// GET ATHLETE BY ID
+router.get('/:id', getAthleteById)
+
 // GET ALL ATHLETES
 router.post('/filter', getAllAthletes)
 
 // GET RX ATHLETES SORTED
 router.get('/createranking', createRanking)
-
-// GET ATHLETE BY ID
-router.get('/:id', getAthleteById)
 
 // CREATE ATHLETE
 router.post('/', createAthlete)
