@@ -92,7 +92,6 @@ module.exports.changeAthleteScore = async (req, res) => {
     const filter = req.params.id; // GET ATHLETE ID
     // FIND IF THERE'S AN ATHLETE WITH MATCHING ID
     const updatedAthlete = await Athlete.findById(filter);
-    console.log(updatedAthlete)
     // IF ATHLETE IS NOT FOUND
     if (!updatedAthlete) {
       throw new Error('User not found')
