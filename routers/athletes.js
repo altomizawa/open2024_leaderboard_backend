@@ -18,7 +18,7 @@ router.get('/:id', getAthleteById)
 router.post('/filter', getAllAthletes)
 
 // GET RX ATHLETES SORTED
-router.get('/createranking', createRanking)
+router.post('/createranking', createRanking)
 
 // CREATE ATHLETE
 router.post('/', createAthlete)

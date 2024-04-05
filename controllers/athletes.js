@@ -14,6 +14,7 @@ module.exports.getAllAthletes = async (req, res) => {
 }
 
 module.exports.createRanking = async (req, res) => {
+  const category = req.body;
   try {
     const category = req.body
 
