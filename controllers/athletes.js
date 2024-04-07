@@ -190,15 +190,6 @@ module.exports.getAthleteById = async (req, res) => {
   }
 }
 
-// module.exports.getAthleteById = async (req, res) => {
-//   const id = 'Al Tomizawa'
-//   try{
-//     const athlete = await Athlete.find({_id: "6608c6b889b3f4d03dca58dd"})
-//     if (!athlete) {
-//       res.err(404).json({message: 'User not found'})}
-//       res.sendStatus(200).json(athlete)
-//   } catch (err) {message: 'internal server error'}
-// }
 
 // GET ALL TEAMS SORTED
 module.exports.getTeams = async (req, res) => {

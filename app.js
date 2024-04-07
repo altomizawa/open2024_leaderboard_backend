@@ -11,6 +11,8 @@ const app = express();
 app.use(cors());
 
 const athleteRouter = require('./routers/athletes')
+const userRouter = require('./routers/users')
+const {createUser, login} = require('./controllers/users')
 
 const { PORT } = process.env;
 
@@ -21,7 +23,13 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.send('hello, world')
 })
-app.use("/athletes", athleteRouter);
+app.post('/register', createUser);
+app.post('/login', login);
+
+app.use('/athletes' , athleteRouter);
+app.use('/users', userRouter);
+
+
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)
