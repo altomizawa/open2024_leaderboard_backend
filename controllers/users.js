@@ -49,7 +49,7 @@ module.exports.login = async (req, res, next) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       //Create token
       const token = jwt.sign(
-        { user_id: user._id, email },
+        { _id: user._id, email },
         process.env.TOKEN_KEY,
         {
           expiresIn: "5h",
@@ -89,9 +89,10 @@ module.exports.deleteUser = async(req, res) => {
 
 // GET MY USER
 module.exports.getMyProfile = async (req, res) => {
-  const id = req.body._id;
+  const id = req.user._id;
+
   try{
-    const myUser = await User.find({_id: id})
+    const myUser = await User.findOne({_id: id})
     // USER NOT FOUND
     if (!myUser) {
       return res.status(404).send('User not in Database')

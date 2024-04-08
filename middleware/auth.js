@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
 
   let payload;
 
-  // CHECK IF PAYLOAD IS NATCHES
+  // CHECK IF PAYLOAD IS MATCHES
   try {
     payload = jwt.verify(token, secretKey);
   } catch(err) {
@@ -24,7 +24,6 @@ module.exports = (req, res, next) => {
 
   // SET PAYLOAD TO REQ.USER
   req.user = payload;
-  console.log(req.user)
 
   // CALL NEXT MIDDLEWARE
   next();

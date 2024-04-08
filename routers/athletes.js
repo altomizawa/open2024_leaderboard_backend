@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const auth = require('../middleware/auth')
+
 
 const {
     getAllAthletes,
@@ -12,7 +14,7 @@ const {
 } = require ('../controllers/athletes')
 
 // GET ATHLETE BY ID
-router.get('/:id', getAthleteById)
+router.get('/:id', auth, getAthleteById)
 
 // GET ALL ATHLETES
 router.post('/filter', getAllAthletes)
@@ -21,16 +23,16 @@ router.post('/filter', getAllAthletes)
 router.post('/createranking', createRanking)
 
 // CREATE ATHLETE
-router.post('/', createAthlete)
+router.post('/', auth, createAthlete)
 
-// GET ALL ATHLETES
-router.patch('/:id', changeAthleteScore)
+// CHANGE ATHLETE SCORES
+router.patch('/:id', auth, changeAthleteScore)
 
 // UPDATE ATHLETE
-router.patch('/:id', updateAthleteProfile)
+router.patch('/:id', auth, updateAthleteProfile)
 
 // DELETE ATHLETE
-router.delete('/:id', deleteAthlete)
+router.delete('/:id', auth, deleteAthlete)
 
 // GET TEAMS
 router.post('/getteams', getTeams)
