@@ -10,7 +10,6 @@ const User = require('../models/user')
 module.exports.createUser = async(req, res) => {
   // GET INFO FROM BODY
   const { name, email, password } = req.body;  
-  console.log(name, email, password)
   try{
     
     // CHECK FOR EXISTING USER
@@ -23,7 +22,6 @@ module.exports.createUser = async(req, res) => {
 
     // NO USER, CREATE USER
     const hash = await bcrypt.hash(password, 10)
-    console.log(hash)
     const newUser = await User.create({name, email, password: hash})
     
     // THROW ERROR
