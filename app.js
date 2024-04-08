@@ -3,6 +3,7 @@ const router = require("express").Router();
 const connectDatabase = require('./data/database')
 const bodyParser = require('body-parser');
 const cors = require ('cors')
+const auth = require('./middleware/auth')
 
 require('dotenv').config();
 
@@ -24,11 +25,10 @@ app.get('/', (req, res) => {
     res.send('hello, world')
 })
 app.post('/register', createUser);
-app.post('/login', login);
+app.post('/login', auth, login);
 
-app.use('/athletes' , athleteRouter);
-app.use('/users', userRouter);
-
+app.use('/athletes', auth, athleteRouter);
+app.use('/users', auth, userRouter);
 
 
 app.listen(PORT, () => {

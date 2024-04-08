@@ -16,6 +16,6 @@ router.delete('/:id', deleteUser)
 router.patch('/:id', updateProfileName)
 
 // GET MY PROFILE
-router.get('/:id', getMyProfile)
+router.get('/me', getMyProfile)
 
 module.exports = router

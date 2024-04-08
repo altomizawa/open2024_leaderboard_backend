@@ -10,6 +10,7 @@ const User = require('../models/user')
 module.exports.createUser = async(req, res) => {
   // GET INFO FROM BODY
   const { name, email, password } = req.body;  
+  console.log(name, email, password)
   try{
     
     // CHECK FOR EXISTING USER
@@ -90,7 +91,7 @@ module.exports.deleteUser = async(req, res) => {
 
 // GET MY USER
 module.exports.getMyProfile = async (req, res) => {
-  const id = req.params.id;
+  const id = req.body._id;
   try{
     const myUser = await User.find({_id: id})
     // USER NOT FOUND

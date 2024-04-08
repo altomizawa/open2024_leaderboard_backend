@@ -91,11 +91,13 @@ module.exports.changeAthleteScore = async (req, res) => {
   try {
     const { wodOneTime, wodOneResult, wodTwoResult, wodThreeTime, wodThreeResult } = req.body; // GET ALL UPDATE INFO FROM BODY
     const filter = req.params.id; // GET ATHLETE ID
+
     // FIND IF THERE'S AN ATHLETE WITH MATCHING ID
     const updatedAthlete = await Athlete.findById(filter);
+
     // IF ATHLETE IS NOT FOUND
     if (!updatedAthlete) {
-      throw new Error('User not found')
+      throw new Error('filter')
     }
 
     // ATHLETE FOUND CHECK WHICH FIELDS NEED TO BE UPDATED AND UPDATE THEM
