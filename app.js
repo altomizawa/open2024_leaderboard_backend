@@ -25,9 +25,9 @@ app.get('/', (req, res) => {
     res.send('hello, world')
 })
 app.post('/register', createUser);
-app.post('/login', auth, login);
+app.post('/login', login);
 
-app.use('/athletes', auth, athleteRouter);
+app.use('/athletes', athleteRouter);
 app.use('/users', auth, userRouter);
 
 
